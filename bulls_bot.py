@@ -36,23 +36,21 @@ def fetch_bulls_game_for(date_obj):
         "per_page": 100,
     }
     r = requests.get(BALLDONTLIE_URL, params=params, timeout=20)
+    print("DEBUG requesting:", r.url)  # <--- Added debug print
     r.raise_for_status()
     data = r.json().get("data", [])
     if not data:
         return None
-    # If there were multiple (e.g., summer league/preseason), take the first completed NBA game.
-    # BallDontLie marks postseason with "postseason": True; regular season False.
-    # We'll just pick the first with a final score recorded.
     for g in data:
         if g.get("status", "").lower() in ("final", "final/ot", "finished") or (
             g.get("home_team_score", 0) + g.get("visitor_team_score", 0) > 0
         ):
             return g
-    return data[0]  # fallback
+    return data[0]
 
 def format_tweet(game, date_obj):
     if game is None:
-        # Off day / offseason: stay silent
+        print("No game found for date:", date_obj)
         return None
 
     home = game["home_team"]
@@ -68,18 +66,13 @@ def format_tweet(game, date_obj):
     won = bulls_score > opp_score
     yes_no = "Yes" if won else "No"
 
-    # "Nov 2, 2025" portable (avoid %-d for Windows)
     month = date_obj.strftime("%b")
     date_str = f"{month} {date_obj.day}, {date_obj.year}"
-
-    # Opponent line with venue marker
     venue = "vs" if bulls_is_home else "@"
     opponent_line = f"{venue} {opp['full_name']}"
-
     score_line = f"Bulls {bulls_score} – {opp_score} {opp['name']}"
 
     tweet = f"{yes_no}\n{date_str}\n{opponent_line}\n{score_line}"
-    # Trim just in case (280 char limit)
     return tweet[:280]
 
 def post_to_x(status_text):
