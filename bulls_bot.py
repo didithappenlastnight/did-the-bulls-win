@@ -11,7 +11,7 @@ from requests_oauthlib import OAuth1
 
 # ---- Config ----
 BULLS_ID = 6  # Chicago Bulls team_id in BallDontLie
-BALLDONTLIE_URL = "https://www.balldontlie.io/api/v1/games"
+BALLDONTLIE_URL = "https://balldontlie.io/api/v1/games"
 
 # X (Twitter) creds come from environment variables (we set them as GitHub Secrets)
 API_KEY = os.getenv("TWITTER_API_KEY")
