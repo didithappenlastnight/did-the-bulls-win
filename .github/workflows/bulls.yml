@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs ~morning Chicago time year-round (07:40 CST / 08:40 CDT)
     - cron: "40 13 * * *"
-  workflow_dispatch: {}   # lets you run it manually for testing
+  workflow_dispatch: {}
 
 jobs:
   run-bot:
@@ -31,5 +31,6 @@ jobs:
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+          BDL_API_KEY: ${{ secrets.BDL_API_KEY }}   # <- BallDontLie key
         run: |
           python bulls_bot.py
