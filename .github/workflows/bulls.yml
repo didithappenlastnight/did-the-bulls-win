@@ -3,7 +3,7 @@ name: Bulls Bot (daily)
 on:
   schedule:
     # Runs ~morning Chicago time year-round (07:40 CST / 08:40 CDT)
-    - cron: "40 13 * * *"
+    - cron: "30 14 * * *"
   workflow_dispatch: {}
 
 jobs:
