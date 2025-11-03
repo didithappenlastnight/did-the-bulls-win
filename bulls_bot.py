@@ -11,13 +11,14 @@ from requests_oauthlib import OAuth1
 
 # ---- Config ----
 BULLS_ID = 6  # Chicago Bulls team_id in BallDontLie
-BALLDONTLIE_URL = "https://api.balldontlie.io/v1/games"  # correct host
+BALLDONTLIE_URL = "https://api.balldontlie.io/v1/games"
 
-# If BallDontLie ever requires a key for you, set BDL_API_KEY as a secret and uncomment headers below.
-BDL_API_KEY = os.getenv("BDL_API_KEY")  # optional
-HEADERS = {"Authorization": f"Bearer {BDL_API_KEY}"} if BDL_API_KEY else {}
+# BallDontLie API key (add as GitHub Secret: BDL_API_KEY)
+BDL_API_KEY = os.getenv("BDL_API_KEY")
+# Correct header format for BallDontLie (no "Bearer" prefix)
+HEADERS = {"Authorization": BDL_API_KEY} if BDL_API_KEY else {}
 
-# X (Twitter) creds come from environment variables (we set them as GitHub Secrets)
+# X (Twitter) creds come from environment variables (GitHub Secrets)
 API_KEY = os.getenv("TWITTER_API_KEY")
 API_SECRET = os.getenv("TWITTER_API_SECRET")
 ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
@@ -46,6 +47,7 @@ def fetch_bulls_game_for(date_obj):
     if not data:
         return None
     for g in data:
+        # prefer completed games
         if g.get("status", "").lower() in ("final", "final/ot", "finished") or (
             g.get("home_team_score", 0) + g.get("visitor_team_score", 0) > 0
         ):
