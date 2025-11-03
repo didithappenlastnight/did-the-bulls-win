@@ -65,7 +65,7 @@ def format_tweet(game, date_obj):
     opp_score = away_score if bulls_is_home else home_score
 
     won = bulls_score > opp_score
-    yes_no = "Yes" if won else "No"
+    yes_no = "YES" if won else "NO"
 
     month = date_obj.strftime("%b")
     date_str = f"{month} {date_obj.day}, {date_obj.year}"
@@ -75,7 +75,7 @@ def format_tweet(game, date_obj):
 
     score_line = f"Bulls {bulls_score} – {opp_score} {opp['name']}"
 
-    tweet = f"{yes_no}\n{date_str}\n{opponent_line}\n{score_line}"
+    tweet = f"{yes_no}\n\n{date_str}\n{opponent_line}\n{score_line}"
     return tweet[:280]
 
 def post_to_x(status_text):
