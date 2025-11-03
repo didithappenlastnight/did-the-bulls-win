@@ -1,5 +1,5 @@
 # bulls_bot.py
-# Posts "Did the Chicago Bulls win last night?" using free BallDontLie + X API.
+# Posts "Did the Chicago Bulls win last night?" using BallDontLie + X API.
 # Runs daily; figures out "yesterday" in America/Chicago.
 
 import os
@@ -11,7 +11,11 @@ from requests_oauthlib import OAuth1
 
 # ---- Config ----
 BULLS_ID = 6  # Chicago Bulls team_id in BallDontLie
-BALLDONTLIE_URL = "https://balldontlie.io/api/v1/games"
+BALLDONTLIE_URL = "https://api.balldontlie.io/v1/games"  # correct host
+
+# If BallDontLie ever requires a key for you, set BDL_API_KEY as a secret and uncomment headers below.
+BDL_API_KEY = os.getenv("BDL_API_KEY")  # optional
+HEADERS = {"Authorization": f"Bearer {BDL_API_KEY}"} if BDL_API_KEY else {}
 
 # X (Twitter) creds come from environment variables (we set them as GitHub Secrets)
 API_KEY = os.getenv("TWITTER_API_KEY")
@@ -35,8 +39,8 @@ def fetch_bulls_game_for(date_obj):
         "team_ids[]": BULLS_ID,
         "per_page": 100,
     }
-    r = requests.get(BALLDONTLIE_URL, params=params, timeout=20)
-    print("DEBUG requesting:", r.url)  # <--- Added debug print
+    r = requests.get(BALLDONTLIE_URL, params=params, headers=HEADERS, timeout=20)
+    print("DEBUG requesting:", r.url)  # debug to verify host and query
     r.raise_for_status()
     data = r.json().get("data", [])
     if not data:
