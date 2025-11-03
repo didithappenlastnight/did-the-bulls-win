@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 from requests_oauthlib import OAuth1
 
 # ---- Config ----
-BULLS_ID = 6  # Chicago Bulls team_id in BallDontLie
+BULLS_ID = 5  # Chicago Bulls team_id in BallDontLie
 BALLDONTLIE_URL = "https://api.balldontlie.io/v1/games"
 
 # X (Twitter) creds come from environment variables (we set them as GitHub Secrets)
