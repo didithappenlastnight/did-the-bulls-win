@@ -2,7 +2,7 @@ name: Bulls Bot (daily)
 
 on:
   schedule:
-    - cron: "00 13 * * *"  # 7:00 AM CST (13:00 UTC)
+    - cron: "00 12 * * *"  # 6:00 AM CST (12:00 UTC)
   workflow_dispatch: {}
 
 jobs:
